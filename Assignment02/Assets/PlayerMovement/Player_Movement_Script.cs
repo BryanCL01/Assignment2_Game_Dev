@@ -15,10 +15,8 @@ public class PlayerMovement_Script : MonoBehaviour
     Player_InputActions inputActions;
     InputAction movement;
     InputAction jump;
-
     InputAction toggleCollision;
     bool isGrounded;
-
     bool isCollisionActive = true;
     Vector3 velocity;
     public CharacterController controller;
