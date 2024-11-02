@@ -12,34 +12,46 @@ public class PlayerMovement_Script : MonoBehaviour
     public float jumpHeight = 3f;
     public LayerMask groundMask;
 
-    private Player_InputActions inputActions;
-    private InputAction movement;
-    private InputAction jump;
+    Player_InputActions inputActions;
+    InputAction movement;
+    InputAction jump;
+
+    InputAction toggleCollision;
     bool isGrounded;
+
+    bool isCollisionActive = true;
     Vector3 velocity;
     public CharacterController controller;
 
-    private void Awake(){
+    private void Awake()
+    {
         inputActions = new Player_InputActions();
     }
     private void OnEnable()
     {
         movement = inputActions.Player.Movement;
         jump = inputActions.Player.Jump;
+        toggleCollision = inputActions.Player.ToggleCollision;
+
         movement.Enable();
         jump.Enable();
+        toggleCollision.Enable();
 
         jump.performed += DoJump;
+        toggleCollision.performed += ToggleCollision;
     }
     private void OnDisable()
     {
         movement.Disable();
         jump.Disable();
+        toggleCollision.Disable();
+
     }
     void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (isGrounded && velocity.y < 0){
+        if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -2f;
         }
 
@@ -47,18 +59,33 @@ public class PlayerMovement_Script : MonoBehaviour
 
         Vector3 move = transform.right * v2.x + transform.forward * v2.y;
 
-        controller.Move(move * speed * Time.deltaTime);
-
-        velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
+        if (isCollisionActive)
+        {
+            controller.Move(move * speed * Time.deltaTime);
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
+        else
+        {
+            transform.position += move * speed * Time.deltaTime;
+            velocity.y += gravity * Time.deltaTime;
+            transform.position += velocity * Time.deltaTime;
+        }
     }
 
     private void DoJump(InputAction.CallbackContext obj)
     {
-        if(isGrounded){
+        if (isGrounded)
+        {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
+
+    private void ToggleCollision(InputAction.CallbackContext obj)
+    {
+        isCollisionActive = !isCollisionActive;
+        controller.enabled = isCollisionActive;
+    }
+
 
 }
