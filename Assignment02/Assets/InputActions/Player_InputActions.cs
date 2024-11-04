@@ -252,6 +252,17 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""fd5dad35-6f74-48d0-8815-20fa87df31c9"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0f4c1a10-464a-4add-b216-2cfa70c2d102"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",

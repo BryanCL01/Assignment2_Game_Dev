@@ -679,6 +679,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Character_Male_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4415132252214235385, guid: d8823f2b6d723314c878fbf4c74a925c, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 5516532401621666194, guid: d8823f2b6d723314c878fbf4c74a925c, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
