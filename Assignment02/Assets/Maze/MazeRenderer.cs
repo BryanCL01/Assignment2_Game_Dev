@@ -29,7 +29,7 @@ public class MazeRenderer : MonoBehaviour
                 }
                 else if (x == (mazeGenerator.mazeWidth - 1) & y == (mazeGenerator.mazeHeight - 1))
                 {
-                    Vector3 endPosition = new Vector3(mazeGenerator.mazeWidth - 1, 0, mazeGenerator.mazeHeight - 1);
+                    Vector3 endPosition = new Vector3((mazeGenerator.mazeWidth - 1) * CellSize, 1, (mazeGenerator.mazeHeight - 1) * CellSize);
                     Instantiate(EndPlatform, endPosition, Quaternion.identity);
                 }
 
