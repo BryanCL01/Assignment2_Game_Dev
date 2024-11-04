@@ -1,11 +1,7 @@
 # COMP 7051: Assignment 2
 
-## Controls - Keyboard
+## Controls
 
-**C**: Toggle collision for player, allows clipping through walls. Click again to didable clipping.
+**C (Keyboard) | Button East (Controller)**: Toggle collision for player, allows clipping through walls. Click again to didable clipping.
 
-**Home**: Reset player and AI at original spawn points. 
-
-## Controls - Controller
-
-**
+**Home | Button West (Controller)**: Reset player and AI at original spawn points. 
