@@ -745,15 +745,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7002822951003670769, guid: d8823f2b6d723314c878fbf4c74a925c, type: 3}
       propertyPath: walkPointRange
-<<<<<<< HEAD
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7002822951003670769, guid: d8823f2b6d723314c878fbf4c74a925c, type: 3}
       propertyPath: whatIsGround.m_Bits
       value: 128
-=======
-      value: 5
->>>>>>> c52083772921d4d48f0af9ed2c135ccdda6cbec4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
