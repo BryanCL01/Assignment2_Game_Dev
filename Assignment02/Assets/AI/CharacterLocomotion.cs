@@ -49,26 +49,31 @@ public class CharacterLocomotion : MonoBehaviour
 
     void Update()
     {
-        Patrolling();
+        StartCoroutine(Patrolling());
     }
-    public void Patrolling()
+    public IEnumerator Patrolling()
     {
-        if (!walkPointSet) { SearchWalkPoint(); }
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-            animator.SetFloat("speed", agent.velocity.magnitude);
-        }
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        // if (!walkPointSet) { SearchWalkPoint(); }
+        // if (walkPointSet)
+        // {
+        //     agent.SetDestination(walkPoint);
+        //     animator.SetFloat("speed", agent.velocity.magnitude);
+        // }
+        // Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 2f)
-        {
-            walkPointSet = false;
-        }
-        if (agent.velocity.magnitude == 0)
-        {
-            SearchWalkPoint();
-        }
+        // if (distanceToWalkPoint.magnitude < 2f)
+        // {
+        //     walkPointSet = false;
+        // }
+        // if (agent.velocity.magnitude == 0)
+        // {
+        //     SearchWalkPoint();
+        // }
+        SearchWalkPoint();
+        agent.SetDestination(walkPoint);
+        animator.SetFloat("speed", agent.velocity.magnitude);
+            
+        yield return new WaitForSeconds(2.0f); // Update every second
     }
     void SearchWalkPoint()
     {
