@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement_Script : MonoBehaviour
@@ -56,20 +53,26 @@ public class PlayerMovement_Script : MonoBehaviour
         }
 
         Vector2 v2 = movement.ReadValue<Vector2>();
-
         Vector3 move = transform.right * v2.x + transform.forward * v2.y;
 
         if (isCollisionActive)
         {
-            controller.Move(move * speed * Time.deltaTime);
-            velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+            if (controller.enabled)
+            {
+                controller.Move(move * speed * Time.deltaTime);
+                velocity.y += gravity * Time.deltaTime;
+                controller.Move(velocity * Time.deltaTime);
+            }
         }
         else
         {
-            transform.position += move * speed * Time.deltaTime;
+            Vector3 newPosition = transform.position + (move * speed * Time.deltaTime);
             velocity.y += gravity * Time.deltaTime;
-            transform.position += velocity * Time.deltaTime;
+            if (controller.enabled)
+            {
+                controller.Move(new Vector3(0, velocity.y, 0) * Time.deltaTime);
+            }
+            transform.position = new Vector3(newPosition.x, transform.position.y, newPosition.z);
         }
     }
 
