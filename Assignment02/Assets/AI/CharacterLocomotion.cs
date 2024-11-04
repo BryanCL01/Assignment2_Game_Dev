@@ -27,27 +27,18 @@ public class CharacterLocomotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Patrolling();
+        StartCoroutine(Patrolling());
     }
-    public void Patrolling() {
-        if (!walkPointSet) {SearchWalkPoint();}
-        if (walkPointSet) {
-            agent.SetDestination(walkPoint);
-            animator.SetFloat("speed", agent.velocity.magnitude);
-        }
-        Vector3 distanceToWalkPoint =transform.position - walkPoint;
-
-        if (distanceToWalkPoint.magnitude < 2f)
-        {
-            walkPointSet = false;
-        }
-        if (agent.velocity.magnitude  == 0) {
-            SearchWalkPoint();
-        }
+    public IEnumerator Patrolling() {
+        SearchWalkPoint();
+        agent.SetDestination(walkPoint);
+        animator.SetFloat("speed", agent.velocity.magnitude);
+            
+        yield return new WaitForSeconds(2.0f); // Update every second
     }
     private void SearchWalkPoint() {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float randomZ = Random.Range(-walkPointRange, walkPointRange) + 10;
+        float randomX = Random.Range(-walkPointRange, walkPointRange) + 10;
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
         walkPointSet = true;
         //if (Physics.Raycast(walkPoint, -playerTransform.up, 2f, whatIsGround)) {
