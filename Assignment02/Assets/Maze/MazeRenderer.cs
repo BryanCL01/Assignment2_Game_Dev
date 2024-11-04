@@ -7,6 +7,10 @@ public class MazeRenderer : MonoBehaviour
     [SerializeField] MazeGenerator mazeGenerator;
     [SerializeField] GameObject MazeCellPrefab;
 
+    [SerializeField] GameObject startPlatform;
+
+    [SerializeField] GameObject EndPlatform;
+
     public float CellSize = 5f;
 
     private void Start()
@@ -18,6 +22,16 @@ public class MazeRenderer : MonoBehaviour
         {
             for (int y = 0; y < mazeGenerator.mazeHeight; y++)
             {
+                if (x == 0 && y == 0)
+                {
+                    Vector3 startPosition = new Vector3(x, 0, y); // or wherever your start position is
+                    Instantiate(startPlatform, startPosition, Quaternion.identity);
+                }
+                else if (x == (mazeGenerator.mazeWidth - 1) & y == (mazeGenerator.mazeHeight - 1))
+                {
+                    Vector3 endPosition = new Vector3((mazeGenerator.mazeWidth - 1) * CellSize, 1, (mazeGenerator.mazeHeight - 1) * CellSize);
+                    Instantiate(EndPlatform, endPosition, Quaternion.identity);
+                }
 
                 GameObject newCell = Instantiate(MazeCellPrefab, new Vector3((float)x * CellSize, 0f, (float)y * CellSize), Quaternion.identity, transform);
 
@@ -34,5 +48,7 @@ public class MazeRenderer : MonoBehaviour
                 mazeCell.Init(top, botttom, right, left);
             }
         }
+
+
     }
 }
