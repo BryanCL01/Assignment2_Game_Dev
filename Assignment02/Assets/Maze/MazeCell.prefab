@@ -474,6 +474,12 @@ MonoBehaviour:
   bottomWall: {fileID: 5178488970145168339}
   rightWall: {fileID: 1209445215322793381}
   leftWall: {fileID: 4465150880369440499}
+  floor: {fileID: 212770025965676167}
+  NorthWallMaterial: {fileID: 2100000, guid: b812339c32b8440858fd79ca4b249962, type: 2}
+  SouthWallMaterial: {fileID: 2100000, guid: c1ac75b6107544ba4bdcb7c7c27eb9e9, type: 2}
+  EastWallMaterial: {fileID: 2100000, guid: 9dd16d4e9684b4fd8a83164d46f6abfa, type: 2}
+  WestWallMaterial: {fileID: 2100000, guid: f173470475ae24764abb6a9ace33874f, type: 2}
+  floorMaterial: {fileID: 2100000, guid: 38b5d8027f8be4d198059023bdabfc44, type: 2}
 --- !u!1 &5178488970145168339
 GameObject:
   m_ObjectHideFlags: 0
