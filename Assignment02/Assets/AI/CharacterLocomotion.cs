@@ -17,7 +17,6 @@ public class CharacterLocomotion : MonoBehaviour
     Vector2 input;
     public Transform playerTransform;
     UnityEngine.AI.NavMeshAgent agent;
-    bool isRunning = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +40,9 @@ public class CharacterLocomotion : MonoBehaviour
         if (distanceToWalkPoint.magnitude < 2f)
         {
             walkPointSet = false;
+        }
+        if (agent.velocity.magnitude  == 0) {
+            SearchWalkPoint();
         }
     }
     private void SearchWalkPoint() {
