@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
 
 //Based on code from TheKiwiCoder: https://www.youtube.com/watch?v=_I8HsTfKep8&t=1s
 //Standard assets for animation
@@ -18,69 +17,32 @@ public class CharacterLocomotion : MonoBehaviour
     Vector2 input;
     public Transform playerTransform;
     UnityEngine.AI.NavMeshAgent agent;
-
-    Player_InputActions inputActions;
-    InputAction reset;
-    Vector3 originalSpawnPoint;
-
-    void Awake()
-    {
-        inputActions = new Player_InputActions();
-        originalSpawnPoint = transform.position;
-    }
-
+    // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
-    void OnEnable()
-    {
-        reset = inputActions.Player.Reset;
-        reset.Enable();
-        reset.performed += ResetPosition;
-    }
-
-    void OnDisable()
-    {
-        reset.Disable();
-    }
-
+    // Update is called once per frame
     void Update()
     {
-        Patrolling();
+        StartCoroutine(Patrolling());
     }
-    public void Patrolling()
-    {
-        if (!walkPointSet) { SearchWalkPoint(); }
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-            animator.SetFloat("speed", agent.velocity.magnitude);
-        }
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        if (distanceToWalkPoint.magnitude < 2f)
-        {
-            walkPointSet = false;
-        }
-        if (agent.velocity.magnitude == 0)
-        {
-            SearchWalkPoint();
-        }
+    public IEnumerator Patrolling() {
+        SearchWalkPoint();
+        agent.SetDestination(walkPoint);
+        animator.SetFloat("speed", agent.velocity.magnitude);
+            
+        yield return new WaitForSeconds(2.0f); // Update every second
     }
-    void SearchWalkPoint()
-    {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+    private void SearchWalkPoint() {
+        float randomZ = Random.Range(-walkPointRange, walkPointRange) + 10;
+        float randomX = Random.Range(-walkPointRange, walkPointRange) + 10;
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
         walkPointSet = true;
-    }
-
-    void ResetPosition(InputAction.CallbackContext obj)
-    {
-        agent.Warp(originalSpawnPoint);
-        animator.SetFloat("speed", agent.velocity.magnitude);
-    }
+        //if (Physics.Raycast(walkPoint, -playerTransform.up, 2f, whatIsGround)) {
+        //    
+        //
+        }
 }
