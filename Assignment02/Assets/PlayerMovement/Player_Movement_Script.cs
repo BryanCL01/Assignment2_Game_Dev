@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
+
 public class PlayerMovement_Script : MonoBehaviour
 {
     public float speed = 12f;
@@ -16,25 +17,31 @@ public class PlayerMovement_Script : MonoBehaviour
     public AudioClip[] footstepClips;  // Array of footstep sound clips
     public float footstepInterval = 0.5f;
 
+    public AudioSource wallCollisionSource; // AudioSource for wall collision
+    public AudioClip wallCollisionClip;    // AudioClip to play on collision
+
     Player_InputActions inputActions;
     InputAction movement;
     InputAction jump;
     InputAction reset;
-
     InputAction toggleCollision;
+
     bool isGrounded;
     bool isCollisionActive = true;
 
     Vector3 originalSpawnPoint;
     Vector3 velocity;
 
-    private float footstepTimer = 0f;
+    // Flags to manage collision sound
+    private bool isCollidingWithWall = false;  // Flag to track wall collision
+    private bool isNearWall = false;           // To track if player is still near a wall
 
     void Awake()
     {
         inputActions = new Player_InputActions();
         originalSpawnPoint = transform.position;
     }
+
     void OnEnable()
     {
         movement = inputActions.Player.Movement;
@@ -51,6 +58,7 @@ public class PlayerMovement_Script : MonoBehaviour
         toggleCollision.performed += ToggleCollision;
         reset.performed += ResetPosition;
     }
+
     void OnDisable()
     {
         movement.Disable();
@@ -58,6 +66,7 @@ public class PlayerMovement_Script : MonoBehaviour
         toggleCollision.Disable();
         reset.Disable();
     }
+
     void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -68,6 +77,17 @@ public class PlayerMovement_Script : MonoBehaviour
 
         Vector2 v2 = movement.ReadValue<Vector2>();
         Vector3 move = transform.right * v2.x + transform.forward * v2.y;
+
+        // Update flag based on player movement
+        isNearWall = false; // Reset the wall proximity flag each frame
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 1f)) // Check if player is near a wall
+        {
+            if (hit.collider.CompareTag("Wall"))
+            {
+                isNearWall = true;  // Player is near the wall
+            }
+        }
 
         if (move.magnitude > 0 && isGrounded)
         {
@@ -97,6 +117,12 @@ public class PlayerMovement_Script : MonoBehaviour
             }
             transform.position = new Vector3(newPosition.x, transform.position.y, newPosition.z);
         }
+
+        // Stop wall collision sound if player is not near a wall anymore
+        if (!isNearWall)
+        {
+            isCollidingWithWall = false; // Reset flag when player moves away from the wall
+        }
     }
 
     void DoJump(InputAction.CallbackContext obj)
@@ -121,7 +147,6 @@ public class PlayerMovement_Script : MonoBehaviour
         controller.enabled = true;
     }
 
-    private float currentFootstepTime = 0f; // To track where the clip left off
 
     void PlayFootsteps()
     {
@@ -138,4 +163,18 @@ public class PlayerMovement_Script : MonoBehaviour
         footstepsSource.Pause(); // Pause the looping playback
     }
 
+    // Handle collision with objects (detect if player hits the wall)
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // Check if the collided object has the "Wall" tag
+        if (hit.collider.CompareTag("Wall"))
+        {
+            // Play the collision sound only once
+            if (!isCollidingWithWall && wallCollisionSource != null && wallCollisionClip != null)
+            {
+                wallCollisionSource.PlayOneShot(wallCollisionClip); // Play the collision sound
+                isCollidingWithWall = true; // Set flag to prevent repeat play during the same collision
+            }
+        }
+    }
 }
