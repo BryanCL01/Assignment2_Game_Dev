@@ -17,6 +17,7 @@ public class PlayerMovement_Script : MonoBehaviour
     public AudioClip[] footstepClips;  // Array of footstep sound clips
     public float footstepInterval = 0.5f;
 
+    public AudioSource musicSource; 
     public AudioSource wallCollisionSource; // AudioSource for wall collision
     public AudioClip wallCollisionClip;    // AudioClip to play on collision
 
@@ -25,6 +26,7 @@ public class PlayerMovement_Script : MonoBehaviour
     InputAction jump;
     InputAction reset;
     InputAction toggleCollision;
+    InputAction toggleMusic;
 
     bool isGrounded;
     bool isCollisionActive = true;
@@ -34,7 +36,8 @@ public class PlayerMovement_Script : MonoBehaviour
 
     // Flags to manage collision sound
     private bool isCollidingWithWall = false;  // Flag to track wall collision
-    private bool isNearWall = false;           // To track if player is still near a wall
+    private bool isNearWall = false;
+    private bool isMusicPlaying = true;
 
     void Awake()
     {
@@ -48,15 +51,18 @@ public class PlayerMovement_Script : MonoBehaviour
         jump = inputActions.Player.Jump;
         toggleCollision = inputActions.Player.ToggleCollision;
         reset = inputActions.Player.Reset;
+        toggleMusic = inputActions.Player.ToggleMusic;
 
         movement.Enable();
         jump.Enable();
         toggleCollision.Enable();
         reset.Enable();
+        toggleMusic.Enable();
 
         jump.performed += DoJump;
         toggleCollision.performed += ToggleCollision;
         reset.performed += ResetPosition;
+        toggleMusic.performed += ToggleMusicAudio;
     }
 
     void OnDisable()
@@ -65,6 +71,7 @@ public class PlayerMovement_Script : MonoBehaviour
         jump.Disable();
         toggleCollision.Disable();
         reset.Disable();
+        toggleMusic.Disable();
     }
 
     void FixedUpdate()
@@ -176,5 +183,19 @@ public class PlayerMovement_Script : MonoBehaviour
                 isCollidingWithWall = true; // Set flag to prevent repeat play during the same collision
             }
         }
+    }
+
+        // Toggle music on and off when "M" key is pressed
+    void ToggleMusicAudio(InputAction.CallbackContext obj)
+    {
+        if (isMusicPlaying)
+        {
+            musicSource.Pause();  // Pause the music
+        }
+        else
+        {
+            musicSource.Play();   // Play the music
+        }
+        isMusicPlaying = !isMusicPlaying; // Toggle the state
     }
 }

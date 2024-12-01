@@ -71,6 +71,15 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleMusic"",
+                    ""type"": ""Button"",
+                    ""id"": ""e62ec39f-468a-4bfa-9774-ba11e3bae0f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -282,6 +291,17 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a93405fb-6b95-44bd-b520-a29d4c93850f"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleMusic"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -295,6 +315,7 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
         m_Player_ToggleCollision = m_Player.FindAction("ToggleCollision", throwIfNotFound: true);
         m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_ToggleMusic = m_Player.FindAction("ToggleMusic", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ToggleCollision;
     private readonly InputAction m_Player_Reset;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_ToggleMusic;
     public struct PlayerActions
     {
         private @Player_InputActions m_Wrapper;
@@ -370,6 +392,7 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
         public InputAction @ToggleCollision => m_Wrapper.m_Player_ToggleCollision;
         public InputAction @Reset => m_Wrapper.m_Player_Reset;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @ToggleMusic => m_Wrapper.m_Player_ToggleMusic;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -394,6 +417,9 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @ToggleMusic.started += instance.OnToggleMusic;
+            @ToggleMusic.performed += instance.OnToggleMusic;
+            @ToggleMusic.canceled += instance.OnToggleMusic;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -413,6 +439,9 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @ToggleMusic.started -= instance.OnToggleMusic;
+            @ToggleMusic.performed -= instance.OnToggleMusic;
+            @ToggleMusic.canceled -= instance.OnToggleMusic;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -437,5 +466,6 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
         void OnToggleCollision(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnToggleMusic(InputAction.CallbackContext context);
     }
 }
