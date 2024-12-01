@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 public class PlayerMovement_Script : MonoBehaviour
 {
     public float speed = 12f;
@@ -9,6 +11,10 @@ public class PlayerMovement_Script : MonoBehaviour
     public float jumpHeight = 3f;
     public LayerMask groundMask;
     public CharacterController controller;
+
+    public AudioSource footstepsSource;
+    public AudioClip[] footstepClips;  // Array of footstep sound clips
+    public float footstepInterval = 0.5f;
 
     Player_InputActions inputActions;
     InputAction movement;
@@ -21,6 +27,9 @@ public class PlayerMovement_Script : MonoBehaviour
 
     Vector3 originalSpawnPoint;
     Vector3 velocity;
+
+    private float footstepTimer = 0f;
+
     void Awake()
     {
         inputActions = new Player_InputActions();
@@ -59,6 +68,15 @@ public class PlayerMovement_Script : MonoBehaviour
 
         Vector2 v2 = movement.ReadValue<Vector2>();
         Vector3 move = transform.right * v2.x + transform.forward * v2.y;
+
+        if (move.magnitude > 0 && isGrounded)
+        {
+            PlayFootsteps();
+        }
+        else
+        {
+            StopFootsteps();
+        }
 
         if (isCollisionActive)
         {
@@ -101,6 +119,23 @@ public class PlayerMovement_Script : MonoBehaviour
         transform.position = originalSpawnPoint;
         velocity = Vector3.zero;
         controller.enabled = true;
+    }
+
+    private float currentFootstepTime = 0f; // To track where the clip left off
+
+    void PlayFootsteps()
+    {
+        if (!footstepsSource.isPlaying)
+        {
+            footstepsSource.clip = footstepClips[Random.Range(0, footstepClips.Length)];
+            footstepsSource.loop = true; // Enable looping
+            footstepsSource.Play();
+        }
+    }
+
+    void StopFootsteps()
+    {
+        footstepsSource.Pause(); // Pause the looping playback
     }
 
 }
