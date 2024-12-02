@@ -7,7 +7,8 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset Preset;
     //Variables
-    [SerializeField, Range(0, 24)] private float TimeOfDay;
+    [SerializeField, Range(0, 24)] public float TimeOfDay;
+    public bool isDay = true;
 
 
     private void Update()
@@ -21,6 +22,13 @@ public class LightingManager : MonoBehaviour
             TimeOfDay += 12;
             TimeOfDay %= 24; //Modulus to ensure always between 0-24
             UpdateLighting(TimeOfDay / 24f);
+            if (TimeOfDay != 0) {
+                isDay = true;
+            }
+            else 
+            {
+                isDay = false;
+            }
         }
     }
 
