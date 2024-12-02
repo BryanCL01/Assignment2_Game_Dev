@@ -6,6 +6,9 @@ public class PlayerLook_Script : MonoBehaviour
     public Transform playerBody;
     public float sensitivity = 100f;  // Unified sensitivity for mouse and controller
     private Player_InputActions inputActions;
+    public float rotation_x_axis;
+    public float rotation_y_axis;
+    public Transform hand;
     private InputAction lookAction;
     private float xRotation = 0f;
 
@@ -37,7 +40,11 @@ public class PlayerLook_Script : MonoBehaviour
 
         float mouseX = lookInput.x * sensitivity * Time.deltaTime;
         float mouseY = lookInput.y * sensitivity * Time.deltaTime;
+        rotation_x_axis += Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        rotation_y_axis += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+        rotation_x_axis = Mathf.Clamp(rotation_x_axis, -90.0f, 90.0f);
 
+        hand.localRotation = Quaternion.Euler(-rotation_x_axis, rotation_y_axis, 0);
         // Vertical rotation (looking up and down)
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
