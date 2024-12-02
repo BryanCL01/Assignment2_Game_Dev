@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class MazeRenderer : MonoBehaviour
 {   
     [SerializeField] MazeGenerator mazeGenerator;
+    public Transform player;
+    public int playerOffset = 2;
+    
     [SerializeField] GameObject MazeCellPrefab;
 
     [SerializeField] GameObject startPlatform;
@@ -14,6 +17,7 @@ public class MazeRenderer : MonoBehaviour
     
 
     public float CellSize = 5f;
+    Vector3 doorPosition;
     private static bool isGenned = false; // Static to persist across scenes
 
     private void Awake()
@@ -30,6 +34,7 @@ public class MazeRenderer : MonoBehaviour
         {
             GenerateMaze();
             isGenned = true; // Mark as generated
+            doorPosition = mazeGenerator.doorPosition;
         }
 
         // Rebuild the NavMesh for navigation
@@ -87,11 +92,46 @@ public class MazeRenderer : MonoBehaviour
         // Check if the current scene is the maze scene
         if (scene.name == "Maze") // Replace "MazeScene" with your actual maze scene name
         {
-            this.gameObject.SetActive(true); // Enable the maze in the maze scene
+            this.gameObject.SetActive(true);
+            StartCoroutine(PlacePlayerOutsideDoor()); // Enable the maze in the maze scene
         }
         else
         {
             this.gameObject.SetActive(false); // Disable the maze in other scenes
         }
     }
+ private IEnumerator PlacePlayerOutsideDoor()
+    {
+        yield return null; // Wait one frame to ensure all objects are initialized
+
+        // Ensure the player reference is set
+        if (player == null)
+        {
+            GameObject foundPlayer = GameObject.FindWithTag("Player"); // Ensure the player has the "Player" tag
+            if (foundPlayer != null)
+            {
+                player = foundPlayer.transform;
+            }
+        }
+
+        if (player != null)
+        {
+            // Get the door's position from the MazeGenerator
+            Vector3 doorPosition = mazeGenerator.doorPosition;
+
+            // Calculate the player's position just outside the door
+            Vector3 playerPosition = doorPosition + new Vector3(0f, 0f, -playerOffset); // Offset behind the door
+
+            // Set the player's position
+            player.transform.position = playerPosition;
+
+            // Optional: Rotate the player to face the door
+            player.LookAt(doorPosition);
+        }
+        else
+        {
+            Debug.LogError("Player object not found. Could not set position.");
+        }
+    }
+
 }

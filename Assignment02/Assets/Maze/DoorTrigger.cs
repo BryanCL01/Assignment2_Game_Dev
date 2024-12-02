@@ -6,7 +6,7 @@ public class DoorTrigger : MonoBehaviour
 {
     public GameObject player;  // Reference to the player object
     public string sceneToLoad; // Scene to load when the player enters the door
-
+    public Transform Player;
     private Vector3 lastPosition;  // To store the player's last position
 
     private void OnTriggerEnter(Collider other)
@@ -20,6 +20,7 @@ public class DoorTrigger : MonoBehaviour
             PlayerPrefs.SetFloat("PlayerPosZ", lastPosition.z);
 
             // Optionally save the maze state here if needed
+            PlayerPositionManager.Instance.SavePlayerPosition(player.transform.position);
 
             // Load the next scene (or reload the current scene)
             SceneManager.LoadScene(sceneToLoad);
@@ -35,7 +36,7 @@ public class DoorTrigger : MonoBehaviour
             float y = PlayerPrefs.GetFloat("PlayerPosY");
             float z = PlayerPrefs.GetFloat("PlayerPosZ");
 
-            player.transform.position = new Vector3(x, y, z);  // Set the player back to their saved position
+            player.transform.position = PlayerPositionManager.Instance.GetSavedPosition();
         }
     }
 }

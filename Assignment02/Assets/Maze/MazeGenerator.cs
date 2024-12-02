@@ -6,11 +6,10 @@ public class MazeGenerator : MonoBehaviour
 {
     [Range(5, 500)]
     public int mazeWidth = 5, mazeHeight = 5;  // Maze dimensions
-
     public int startX, startY;  // Starting position for the maze
 
     [SerializeField] GameObject doorPrefab;       // Door prefab reference
-    [SerializeField] Vector2Int doorPosition;     // Position for the door
+    [SerializeField] public Vector3 doorPosition;     // Position for the door
 
     MazeCell[,] maze;  // Maze cell array
     Vector2Int currentCell;  // Current position in the maze

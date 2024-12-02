@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement_Script : MonoBehaviour
 {
@@ -84,7 +85,14 @@ public class PlayerMovement_Script : MonoBehaviour
         reset.Disable();
         toggleMusic.Disable();
     }
-
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if the current scene is the maze scene
+        if (scene.name == "Maze") // Replace "MazeScene" with your actual maze scene name
+        {
+            transform.position = PlayerPositionManager.Instance.GetSavedPosition(); // Enable the maze in the maze scene
+        }
+    }
     void FixedUpdate()
     {
         UpdateMusicBasedOnDayNightAndFog();
