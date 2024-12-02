@@ -678,9 +678,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 8753836888466621951}
+  playerBody: {fileID: 6412499868689902923}
   hand: {fileID: 4207844891237324863}
   cameraSensitivity: 300
   cameraAcceleration: 20
+  sensitivity: 100
   rotation_x_axis: 0
   rotation_y_axis: 0
 --- !u!114 &8027768941362794751

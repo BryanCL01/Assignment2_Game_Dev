@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
+  - Enemy
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,11 @@ TagManager:
   - UI
   - Player
   - Ground
+<<<<<<< HEAD
   - Maze
+=======
+  - Enemy
+>>>>>>> a5fe799bca02918af2c00e7001e826f339185df7
   - 
   - 
   - 

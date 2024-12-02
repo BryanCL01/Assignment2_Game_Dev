@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 8009598607294754194}
   - component: {fileID: 2832740942831539378}
   - component: {fileID: 2509106348599340362}
+  - component: {fileID: 600678079224004797}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: Checkpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,5 +119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5887344717dbcd14d900aabb1cc74e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mazeManager: {fileID: 7926251371470085899, guid: 29fef0bdd5ce6d14a8bc0e9e7ea71649, type: 3}
+--- !u!114 &600678079224004797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8184677713982113391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cc2c77976b38f4f9d1370be76ee871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1177824682609894036, guid: 21ea94490a16d744bb3f702279138302, type: 3}
   player: {fileID: 4553564609550838527, guid: 04047f1099649ca4c87ea396e6bd7d1e, type: 3}
-  sceneToLoad: PlayervsAi
