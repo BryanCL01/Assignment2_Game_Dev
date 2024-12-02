@@ -4,6 +4,8 @@ public class FogController : MonoBehaviour
 {
     public GameObject targetObject; // Reference to the object to enable/disable
 
+    public bool isFoggy => isObjectActive;
+
     private bool isObjectActive = false; // Tracks the object's active state
 
     void Start()

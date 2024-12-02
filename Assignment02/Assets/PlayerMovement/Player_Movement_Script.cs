@@ -24,6 +24,7 @@ public class PlayerMovement_Script : MonoBehaviour
     public AudioClip wallCollisionClip;    // AudioClip to play on collision
 
     public LightingManager dayNightCycle;
+    public FogController fogController;
 
     Player_InputActions inputActions;
     InputAction movement;
@@ -43,6 +44,7 @@ public class PlayerMovement_Script : MonoBehaviour
     private bool isNearWall = false;
     private bool isMusicPlaying = true;
     private bool lastIsDay = true;
+    private bool lastIsFoggy = false;
 
     void Awake()
     {
@@ -81,7 +83,7 @@ public class PlayerMovement_Script : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateMusicBasedOnDayNight();
+        UpdateMusicBasedOnDayNightAndFog();
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
@@ -139,10 +141,11 @@ public class PlayerMovement_Script : MonoBehaviour
         }
     }
 
-        void UpdateMusicBasedOnDayNight()
+    void UpdateMusicBasedOnDayNightAndFog()
     {
         if (dayNightCycle == null) return;
 
+        // Update music clip if isDay has changed
         if (dayNightCycle.isDay != lastIsDay)
         {
             lastIsDay = dayNightCycle.isDay;
@@ -160,6 +163,13 @@ public class PlayerMovement_Script : MonoBehaviour
             {
                 musicSource.Play();
             }
+        }
+
+        // Adjust volume if isFoggy has changed
+        if (fogController.isFoggy != lastIsFoggy)
+        {
+            lastIsFoggy = fogController.isFoggy;
+            musicSource.volume = fogController.isFoggy ? 0.5f : 1f;
         }
     }
 
