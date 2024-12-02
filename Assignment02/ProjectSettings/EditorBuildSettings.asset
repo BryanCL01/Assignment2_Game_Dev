@@ -4,8 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/flashlightTest.unity
-    guid: 5223230a34907634bb4adaa5394388dc
+  m_Scenes: []
   m_configObjects: {}
