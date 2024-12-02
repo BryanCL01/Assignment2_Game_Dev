@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Maze.unity
     guid: ba7b2a949aa5147af88ac98bef28fbc7
+  - enabled: 1
+    path: Assets/Scenes/PlayervsAi.unity
+    guid: a6c5821bde99fbd4b9c43d9adac868b7
   m_configObjects: {}
