@@ -118,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5887344717dbcd14d900aabb1cc74e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 6623166855729381803, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
+  player: {fileID: 4553564609550838527, guid: 04047f1099649ca4c87ea396e6bd7d1e, type: 3}
   sceneToLoad: PlayervsAi

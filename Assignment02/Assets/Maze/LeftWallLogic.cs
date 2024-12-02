@@ -32,7 +32,7 @@ public class LeftWallLogic : MonoBehaviour
         {
             col.gameObject.transform.position = spawnPoint.position;
             playerTwoScore++;
-            if (playerTwoScore >= 5)
+            if (playerTwoScore >= 1)
             {
                 EndGame();
                 return;
