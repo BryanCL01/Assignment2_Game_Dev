@@ -18,7 +18,7 @@ public class FogController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H)) // Detect when the F key is pressed
+        if (Input.GetKeyDown(KeyCode.K)) // Detect when the F key is pressed
         {
             ToggleObject();
         }
