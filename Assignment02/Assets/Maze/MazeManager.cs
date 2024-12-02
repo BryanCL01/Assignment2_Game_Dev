@@ -1,17 +1,52 @@
-public static class MazeManager
-{
-    // Store the maze layout, with each cell's visited state or other relevant data.
-    public static int[,] mazeLayout;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-    // Method to save the maze data (for example, the visited state of cells).
-    public static void SaveMaze(int[,] layout)
+public class MazeManager : MonoBehaviour
+{
+    public GameObject player;
+    public GameObject doorPrefab; // Reference to door prefab
+    public string sceneToLoad; // Name of the scene to load
+    private Vector3 savedPlayerPosition;
+
+    private void Start()
     {
-        mazeLayout = layout;
+        // Check if there's a saved player position and set it
+        if (PlayerPrefs.HasKey("PlayerPosX") && PlayerPrefs.HasKey("PlayerPosY") && PlayerPrefs.HasKey("PlayerPosZ"))
+        {
+            float x = PlayerPrefs.GetFloat("PlayerPosX");
+            float y = PlayerPrefs.GetFloat("PlayerPosY");
+            float z = PlayerPrefs.GetFloat("PlayerPosZ");
+            savedPlayerPosition = new Vector3(x, y, z);
+            player.transform.position = savedPlayerPosition;
+        }
+        else
+        {
+            savedPlayerPosition = player.transform.position; // Use starting position if no save exists
+        }
+
+        // If the door prefab is not instantiated in the scene, instantiate it here (optional)
+        if (doorPrefab != null)
+        {
+            // You can add logic to position the door within the maze
+            Instantiate(doorPrefab, savedPlayerPosition + new Vector3(5, 0, 0), Quaternion.identity);
+        }
     }
 
-    // Method to load the maze data.
-    public static int[,] LoadMaze()
+    public void SavePlayerPosition()
     {
-        return mazeLayout; // Return the saved layout (null if not saved yet).
+        PlayerPrefs.SetFloat("PlayerPosX", player.transform.position.x);
+        PlayerPrefs.SetFloat("PlayerPosY", player.transform.position.y);
+        PlayerPrefs.SetFloat("PlayerPosZ", player.transform.position.z);
+    }
+
+    public void LoadScene()
+    {
+        SceneManager.LoadScene(sceneToLoad); // Load the next scene
+    }
+
+    public void OnPlayerEnterDoor()
+    {
+        SavePlayerPosition();
+        LoadScene();
     }
 }
