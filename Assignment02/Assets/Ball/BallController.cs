@@ -4,10 +4,8 @@ public class BallController : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject);
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Hit");
             // Update the score
             FindObjectOfType<ScoreManager>().UpdateScore();
 
