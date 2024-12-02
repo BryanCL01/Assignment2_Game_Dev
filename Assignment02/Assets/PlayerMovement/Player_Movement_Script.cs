@@ -17,9 +17,13 @@ public class PlayerMovement_Script : MonoBehaviour
     public AudioClip[] footstepClips;  // Array of footstep sound clips
     public float footstepInterval = 0.5f;
 
-    public AudioSource musicSource; 
+    public AudioSource musicSource;
+    public AudioClip dayMusicClip; 
+    public AudioClip nightMusicClip; 
     public AudioSource wallCollisionSource; // AudioSource for wall collision
     public AudioClip wallCollisionClip;    // AudioClip to play on collision
+
+    public LightingManager dayNightCycle;
 
     Player_InputActions inputActions;
     InputAction movement;
@@ -38,6 +42,7 @@ public class PlayerMovement_Script : MonoBehaviour
     private bool isCollidingWithWall = false;  // Flag to track wall collision
     private bool isNearWall = false;
     private bool isMusicPlaying = true;
+    private bool lastIsDay = true;
 
     void Awake()
     {
@@ -76,6 +81,8 @@ public class PlayerMovement_Script : MonoBehaviour
 
     void FixedUpdate()
     {
+        UpdateMusicBasedOnDayNight();
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
@@ -129,6 +136,30 @@ public class PlayerMovement_Script : MonoBehaviour
         if (!isNearWall)
         {
             isCollidingWithWall = false; // Reset flag when player moves away from the wall
+        }
+    }
+
+        void UpdateMusicBasedOnDayNight()
+    {
+        if (dayNightCycle == null) return;
+
+        if (dayNightCycle.isDay != lastIsDay)
+        {
+            lastIsDay = dayNightCycle.isDay;
+
+            if (dayNightCycle.isDay)
+            {
+                musicSource.clip = dayMusicClip;
+            }
+            else
+            {
+                musicSource.clip = nightMusicClip;
+            }
+
+            if (isMusicPlaying)
+            {
+                musicSource.Play();
+            }
         }
     }
 

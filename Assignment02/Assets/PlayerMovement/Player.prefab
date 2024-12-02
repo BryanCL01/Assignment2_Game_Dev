@@ -589,8 +589,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ae5cb3080bff93244b736ab3f836daa7, type: 3}
   footstepInterval: 0.5
   musicSource: {fileID: 2839201350290730923}
+  dayMusicClip: {fileID: 8300000, guid: 3b76687eece8bbe4ba56263335a81ce8, type: 3}
+  nightMusicClip: {fileID: 8300000, guid: 92712f9d3b389904ebce34c8b33bf97e, type: 3}
   wallCollisionSource: {fileID: 4953668788357239042}
   wallCollisionClip: {fileID: 8300000, guid: 7c1bb5cdd40922541a4c36b4573251ea, type: 3}
+  dayNightCycle: {fileID: 0}
 --- !u!1 &7810126115267471582
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,3 +701,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBody: {fileID: 4105557019277293317}
   sensitivity: 100
+  rotation_x_axis: 0
+  rotation_y_axis: 0
+  hand: {fileID: 0}
