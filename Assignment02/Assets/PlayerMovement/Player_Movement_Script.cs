@@ -32,7 +32,11 @@ public class PlayerMovement_Script : MonoBehaviour
     InputAction reset;
     InputAction toggleCollision;
     InputAction toggleMusic;
-
+    [SerializeField] private Transform player;       
+    [SerializeField] private Transform enemy;         
+    [SerializeField] private float maxDistance = 20f; // Maximum distance to affect volume
+    [SerializeField] private float minVolume = 0.2f; 
+    [SerializeField] private float maxVolume = 1.5f; 
     bool isGrounded;
     bool isCollisionActive = true;
 
@@ -84,6 +88,7 @@ public class PlayerMovement_Script : MonoBehaviour
     void FixedUpdate()
     {
         UpdateMusicBasedOnDayNightAndFog();
+        updateMusicByDistance();
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
@@ -225,7 +230,14 @@ public class PlayerMovement_Script : MonoBehaviour
             }
         }
     }
+    private void updateMusicByDistance()
+    {
+        float distance = Vector3.Distance(player.position, enemy.position);
+        float volumeFactor = Mathf.Clamp01(1 - (distance / maxDistance));
+        float targetVolume = Mathf.Lerp(minVolume, maxVolume, volumeFactor);
 
+        musicSource.volume = Mathf.Lerp(musicSource.volume, targetVolume, Time.deltaTime * 5f);
+    }
         // Toggle music on and off when "M" key is pressed
     void ToggleMusicAudio(InputAction.CallbackContext obj)
     {

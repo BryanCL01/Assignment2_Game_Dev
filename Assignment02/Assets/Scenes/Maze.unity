@@ -216,7 +216,7 @@ PrefabInstance:
       objectReference: {fileID: 1816742557}
     - target: {fileID: 7390562488060843172, guid: 705a27f2ff7b71941907a31520b97c50, type: 3}
       propertyPath: m_VersionIndex
-      value: 1500
+      value: 1509
       objectReference: {fileID: 0}
     - target: {fileID: 8752590582799251702, guid: 705a27f2ff7b71941907a31520b97c50, type: 3}
       propertyPath: m_LocalScale.x
@@ -484,9 +484,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 920125185860187193, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1300312527}
+    - target: {fileID: 920125185860187193, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
       propertyPath: speed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 920125185860187193, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2034931514}
+    - target: {fileID: 920125185860187193, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
+      propertyPath: dayNightCycle
+      value: 
+      objectReference: {fileID: 1948975173}
+    - target: {fileID: 920125185860187193, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
+      propertyPath: fogController
+      value: 
+      objectReference: {fileID: 1927824654}
     - target: {fileID: 920125185860187193, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
       propertyPath: footstepsSource
       value: 
@@ -681,6 +697,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &1300312527 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5516532401621666194, guid: d8823f2b6d723314c878fbf4c74a925c, type: 3}
+  m_PrefabInstance: {fileID: 1870409265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1550820951
 PrefabInstance:
   m_ObjectHideFlags: 0
