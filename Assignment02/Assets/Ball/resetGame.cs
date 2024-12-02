@@ -7,7 +7,7 @@ public class resetGame : MonoBehaviour
     public Enemy enemy; 
     // Start is called before the first frame update
   void OnControllerColliderHit(ControllerColliderHit hit) {
-    Debug.Log(hit.gameObject); 
+    
     if (hit.gameObject.CompareTag("Enemy")){
             enemy.health = 3; 
             FindObjectOfType<ScoreManager>().ResetScore();
