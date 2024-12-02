@@ -5,36 +5,36 @@ using UnityEngine;
 public class MazeGenerator : MonoBehaviour
 {
     [Range(5, 500)]
+    public int mazeWidth = 5, mazeHeight = 5;  // Maze dimensions
 
-    //The maze dimensions
-    public int mazeWidth = 5, mazeHeight = 5;
+    public int startX, startY;  // Starting position for the maze
 
-    //Start position
-    public int startX, startY;
+    [SerializeField] GameObject doorPrefab;       // Door prefab reference
+    [SerializeField] Vector2Int doorPosition;     // Position for the door
 
-    //Array of maze cells
-    MazeCell[,] maze;
+    MazeCell[,] maze;  // Maze cell array
+    Vector2Int currentCell;  // Current position in the maze
 
-    //current maze cell
-    Vector2Int currentCell;
-
+    // Get the generated maze
     public MazeCell[,] GetMaze()
     {
-        maze = new MazeCell[mazeHeight, mazeWidth];
-
-        for (int x = 0; x < mazeWidth; x++)
+        if (maze == null) // Ensure maze is only generated once
         {
-            for (int y = 0; y < mazeHeight; y++)
+            maze = new MazeCell[mazeHeight, mazeWidth];
+            for (int x = 0; x < mazeWidth; x++)
             {
-                maze[x, y] = new MazeCell(x, y);
+                for (int y = 0; y < mazeHeight; y++)
+                {
+                    maze[x, y] = new MazeCell(x, y);
+                }
             }
+            CarvePath(startX, startY); // Generate the maze
         }
-
-        CarvePath(startX, startY);
 
         return maze;
     }
 
+    // Directions for maze carving
     List<Direction> directions = new List<Direction>
     {
         Direction.Up, Direction.Down, Direction.Left, Direction.Right,
@@ -42,32 +42,22 @@ public class MazeGenerator : MonoBehaviour
 
     List<Direction> GetRandomDirection()
     {
-        //Making copy of list
         List<Direction> dir = new List<Direction>(directions);
-        //List to put random directions in
         List<Direction> rndDir = new List<Direction>();
 
-        // Loop until rndDir is empty
         while (dir.Count > 0)
         {
-            //Get random index in list
             int rnd = Random.Range(0, dir.Count);
-            //Add the random direction to our list
             rndDir.Add(dir[rnd]);
-            //Remove the direction so we can't choose it again
             dir.RemoveAt(rnd);
         }
-        //When we have all four directions in a random order, return it
+
         return rndDir;
     }
 
-
     bool IsCellValid(int x, int y)
     {
-        if (x < 0 || y < 0 || x > mazeWidth - 1 || y > mazeHeight - 1 || maze[x, y].visited)
-            return false;
-        else
-            return true;
+        return x >= 0 && y >= 0 && x < mazeWidth && y < mazeHeight && !maze[x, y].visited;
     }
 
     Vector2Int CheckNeighbours()
@@ -76,11 +66,8 @@ public class MazeGenerator : MonoBehaviour
 
         for (int i = 0; i < rndDir.Count; i++)
         {
-
-            //Set neighnour coordinates to current cell for now. 
             Vector2Int neighbour = currentCell;
 
-            //Modify neighbour coordinates based on the radnom directions
             switch (rndDir[i])
             {
                 case Direction.Up:
@@ -95,71 +82,50 @@ public class MazeGenerator : MonoBehaviour
                 case Direction.Left:
                     neighbour.x--;
                     break;
-
             }
-            // If the neighour we just tried is valid, we can return it
+
             if (IsCellValid(neighbour.x, neighbour.y)) return neighbour;
         }
-        // If we tried all directions and didn't find a valid neighbour, return currectCell
+
         return currentCell;
     }
 
     void BreakWalls(Vector2Int primaryCell, Vector2Int secondaryCell)
     {
-        //We can only go in one direction at a time 
-        //Primary Cells's Left Wall
         if (primaryCell.x > secondaryCell.x)
         {
             maze[primaryCell.x, primaryCell.y].leftWall = false;
         }
-        else
-        if (primaryCell.x < secondaryCell.x)
+        else if (primaryCell.x < secondaryCell.x)
         {
             maze[secondaryCell.x, secondaryCell.y].leftWall = false;
         }
-        else
-        if (primaryCell.y < secondaryCell.y)
+        else if (primaryCell.y < secondaryCell.y)
         {
             maze[primaryCell.x, primaryCell.y].topWall = false;
         }
-        else
-        if (primaryCell.y > secondaryCell.y)
+        else if (primaryCell.y > secondaryCell.y)
         {
             maze[secondaryCell.x, secondaryCell.y].topWall = false;
         }
     }
 
-    //Carves a path through the maze until it encounters a dead end
     void CarvePath(int x, int y)
     {
-        if (x < 0 || y < 0 || x > mazeWidth - 1 || y > mazeHeight - 1)
-        {
-            x = y = 0;
-            Debug.LogWarning("Starting position is out of bounds, defaulting to 0,0");
-        }
-
         currentCell = new Vector2Int(x, y);
-
-        //A list to keep track of our current path
         List<Vector2Int> path = new List<Vector2Int>();
-
         bool deadEnd = false;
+
         while (!deadEnd)
         {
-            //Get the next cell w're going to try
             Vector2Int nextCell = CheckNeighbours();
 
             if (nextCell == currentCell)
             {
-
-                //If cell has no valid neighbours, set deadend to true
                 for (int i = path.Count - 1; i >= 0; i--)
                 {
-                    //Set currentCell to the next step
                     currentCell = path[i];
-                    //Remove this step from the path
                     path.RemoveAt(i);
-                    //Check that cell to see if any other neighbours are valid
                     nextCell = CheckNeighbours();
 
                     if (nextCell != currentCell) break;
@@ -167,24 +133,44 @@ public class MazeGenerator : MonoBehaviour
 
                 if (nextCell == currentCell)
                     deadEnd = true;
-
             }
             else
             {
-                // Set wall flags on these cells 
                 BreakWalls(currentCell, nextCell);
-                //Set cell to visited 
                 maze[currentCell.x, currentCell.y].visited = true;
-                //Set the current cell to valid neighbour
                 currentCell = nextCell;
-                //Add this cell to our path
                 path.Add(currentCell);
             }
         }
     }
 
-}
+    private void PlaceDoor()
+    {
+        Vector3 doorPositionWorld = new Vector3(doorPosition.x * 5f, 1f, doorPosition.y * 5f); // Adjust the position as needed
+        Instantiate(doorPrefab, doorPositionWorld, Quaternion.identity);
+    }
 
+    public void GenerateMaze()
+    {
+        maze = new MazeCell[mazeHeight, mazeWidth]; // Reset the maze
+
+        for (int x = 0; x < mazeWidth; x++)
+        {
+            for (int y = 0; y < mazeHeight; y++)
+            {
+                maze[x, y] = new MazeCell(x, y);
+            }
+        }
+
+        CarvePath(startX, startY); // Generate the paths
+        PlaceDoor();  // Place the door at the specified location
+    }
+
+    private void Start()
+    {
+        GenerateMaze(); // Start generating the maze
+    }
+}
 
 public enum Direction
 {
@@ -194,7 +180,6 @@ public enum Direction
     Right
 }
 
-//Holds data for each indiviual maze cell.
 public class MazeCell
 {
     public bool visited;
@@ -202,7 +187,6 @@ public class MazeCell
     public bool topWall;
     public bool leftWall;
 
-    // Return x and y as a Vector2Int for conveience. 
     public Vector2Int position
     {
         get
@@ -213,13 +197,9 @@ public class MazeCell
 
     public MazeCell(int x, int y)
     {
-        // coordinates of the cell in the maze grid. 
         this.x = x;
         this.y = y;
-
-        //Whether the algorithm has visited this cell or not 
         visited = false;
         topWall = leftWall = true;
     }
 }
-

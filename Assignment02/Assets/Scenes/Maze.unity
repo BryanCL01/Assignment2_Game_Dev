@@ -240,6 +240,7 @@ MonoBehaviour:
   mazeHeight: 10
   startX: 0
   startY: 0
+  doorPrefab: {fileID: 8184677713982113391, guid: 6e6a20912b39e0c4faf0d910440e4010, type: 3}
 --- !u!114 &386006996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +257,8 @@ MonoBehaviour:
   MazeCellPrefab: {fileID: 2735718762286643723, guid: 44d8d5c08e9946e4687cbad4d56b1003, type: 3}
   startPlatform: {fileID: 8333498416993259294, guid: 2fef6f92435b14843b44907bd4244de0, type: 3}
   EndPlatform: {fileID: 9161671423921202545, guid: 1ecb001d6a378f945b9564b3dfbfa55d, type: 3}
+  doorPrefab: {fileID: 8184677713982113391, guid: 6e6a20912b39e0c4faf0d910440e4010, type: 3}
+  doorPosition: {x: 0, y: 0}
   CellSize: 10
 --- !u!114 &386006997
 MonoBehaviour:
