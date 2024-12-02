@@ -525,7 +525,7 @@ Transform:
   m_GameObject: {fileID: 6623166855729381803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1455534, y: 3.8123999, z: -0.009091408}
+  m_LocalPosition: {x: -0.1455534, y: 3.82, z: -0.009091408}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -594,6 +594,12 @@ MonoBehaviour:
   wallCollisionSource: {fileID: 4953668788357239042}
   wallCollisionClip: {fileID: 8300000, guid: 7c1bb5cdd40922541a4c36b4573251ea, type: 3}
   dayNightCycle: {fileID: 0}
+  fogController: {fileID: 0}
+  player: {fileID: 0}
+  enemy: {fileID: 0}
+  maxDistance: 20
+  minVolume: 0.2
+  maxVolume: 1.5
 --- !u!1 &7810126115267471582
 GameObject:
   m_ObjectHideFlags: 0
