@@ -756,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1008193544}
+  player: {fileID: 743378110}
 --- !u!4 &1191021004
 Transform:
   m_ObjectHideFlags: 0
@@ -883,6 +884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitSphere: {fileID: 644386036}
+  collisionSound: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 385
@@ -899,6 +901,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1774060428}
     m_Modifications:
+    - target: {fileID: 2845311146346020687, guid: 9ccbdc99f566344438edfcc47f7192e1, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2870606510278760110, guid: 9ccbdc99f566344438edfcc47f7192e1, type: 3}
       propertyPath: m_Name
       value: WinText
