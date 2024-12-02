@@ -118,5 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5887344717dbcd14d900aabb1cc74e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 6623166855729381803, guid: d5899a6df7e3d2e4eb569d2dbf66c01d, type: 3}
-  sceneToLoad: PlayervsAi
+  mazeManager: {fileID: 7926251371470085899, guid: 29fef0bdd5ce6d14a8bc0e9e7ea71649, type: 3}
